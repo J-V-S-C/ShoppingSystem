@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+</head>
+
+<body>
+
+    <style>
+        .main{
+
+            margin: 0;
+            display: flex;
+            justify-items: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .main-menu{
+
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            padding: 20;
+            justify-items: center;
+            align-items: center;
+        }
+    </style>
+    
+    <div class="main">
+
+        <div class="main-menu">
+            <h1>Pedidos</h1>
+
+            <form action="login/logout" method="get">
+                <button type="submit">Sair</button>
+            </form>
+
+            <form action="login/logout" method="get">
+                <button type="submit">Criar</button>
+            </form>
+
+
+
+            <% if (pedidos && pedidos.length > 0) { %>
+                <ul>
+                    <% pedidos.forEach(function(pedido) { %>
+                        <li>
+                            <strong>Pedido ID:</strong> <%= pedido.id %> <br>
+                            <strong>Data:</strong> <%= pedido.data_compra %> <br>
+                            <strong>Valor Total:</strong> <%= pedido.valor_total %> <br>
+                            <a href="posts/edit?id=<%= pedido.id %>">Edit</a>
+                            <a href="posts/delete?id=<%= pedido.id %>">Excluir</a>
+
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p>Não há pedidos.</p>
+            <% } %>
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
