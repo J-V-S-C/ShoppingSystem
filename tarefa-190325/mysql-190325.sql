@@ -11,7 +11,7 @@ create table pedidos (
     data_compra DATETIME not null,
     valor_total float not null,
     usuario_id int not null,
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
 
