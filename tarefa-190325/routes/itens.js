@@ -4,9 +4,10 @@ var router = express.Router()
 var Itens = require('../model/itens')
 
 router.get('/', async function(req, res) {
-    const response = await Itens.buscarItens() 
-    res.render('itens', { itens: response});
-})
+    const response = await Itens.buscarItens();
+    res.render('itens', { itens: response, erro: req.query.erro || null });
+  });
+  
 
 router.get('/createItens', async function(req, res){
     res.render('createItens')
@@ -22,12 +23,36 @@ router.post("/createItens", async function(req, res, next){
         return res.redirect("/itens")
 })
 
+router.get('/editar/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await Itens.buscarItensPorID(id)
+        res.render('updateItem', { item: response[0] });
+    } catch (err) {
+      res.redirect('/itens?erro=Erro ao buscar item para edição!');
+    }
+  });
+
+  router.post('/editar/:id', async (req, res) => {
+    const id = req.params.id;
+    const { nome, descricao, preco, estoque, categoria_id } = req.body;
+    try {
+        await Itens.atualizarItem(id, nome, descricao, preco, estoque, categoria_id);
+        return res.redirect("/itens");
+      } catch (error) {
+        console.error("Erro ao editar item:", error);
+        return res.redirect("/itens?erro=Erro ao editar item!");
+      }
+      
+  });
+  
+  
+
 router.post('/deletar/:id', async function(req, res){
     try {
         await Itens.deletarItem(req.params.id);
         res.redirect('/itens');
       } catch (error) {
-        console.error("Erro ao deletar item:", error);
         res.status(500).send("Erro ao deletar item.");
       }})
 module.exports = router

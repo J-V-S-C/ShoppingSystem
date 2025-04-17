@@ -134,5 +134,10 @@
     <form action="/itens/createItens" method="GET">
       <button type="submit" class="add-button">Adicionar Item</button>
     </form>
+    <% if (erro) { %>
+    <div style="color: red">
+      <p><%= erro %></p>
+    </div>
+    <% } %>
   </body>
 </html>
