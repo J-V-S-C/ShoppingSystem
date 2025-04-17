@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Login page</title>
+    <link rel="stylesheet" href="/stylesheets/login.style.css" />
+  </head>
 
-<head>
-  <title>Login page</title>
-  <link rel="stylesheet" href="/stylesheets/login.style.css">
-</head>
+  <body>
+    <div class="login-container">
+      <form class="login-form" action="/login" method="POST">
+        <h2>Entrar</h2>
 
-<body>
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="Digite seu email"
+          />
+        </div>
 
+        <div class="input-group">
+          <label for="senha">Senha</label>
+          <input
+            type="password"
+            id="senha"
+            name="senha"
+            required
+            placeholder="Digite sua senha"
+          />
+        </div>
 
-
-  <div class="login-container">
-    <form class="login-form" action="/login" method="POST">
-      <h2>Entrar</h2>
-
-      <div class="input-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required placeholder="Digite seu email">
-      </div>
-
-      <div class="input-group">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" required placeholder="Digite sua senha">
-      </div>
-
-      <button type="submit" class="btn-entrar">Entrar</button>
-      <a href="/register">Criar conta</a >
-      <% if (typeof erro !=='undefined' ) { %>
-        <div style="color: red;">
-          <p>
-            <%= erro %>
-          </p>
+        <button type="submit" class="btn-entrar">Entrar</button>
+        <p class="p-createAccount">É novo aqui?</p>
+        <a href="/register" class="btn-createAccount">Criar conta</a>
+        <% if (typeof erro !=='undefined' ) { %>
+        <div class="error-message">
+          <p><%= erro %></p>
         </div>
         <% } %>
-    </form>
-
-  </div>
-
-</body>
-
+      </form>
+    </div>
+  </body>
 </html>
