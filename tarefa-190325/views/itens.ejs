@@ -13,30 +13,41 @@
 
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
+        background-color: #f4f6f9;
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
         height: 100vh;
-        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
       }
 
       h1 {
         margin-bottom: 30px;
+        font-size: 26px;
         color: #333;
-        font-size: 28px;
       }
 
       .btn-container {
         display: flex;
         flex-direction: column;
         gap: 15px;
+      }
+
+      .btn-container form {
         width: 100%;
-        max-width: 300px;
       }
 
       button {
+        width: 100%;
         padding: 15px;
         font-size: 16px;
         border: none;
@@ -55,31 +66,32 @@
         .btn-container {
           flex-direction: row;
           flex-wrap: wrap;
-          justify-content: center;
+          justify-content: space-between;
         }
 
-        button {
-          flex: 1 1 45%;
-          margin: 5px;
+        .btn-container form {
+          flex: 1 1 48%;
         }
       }
     </style>
   </head>
   <body>
-    <h1>Gerenciamento de Itens</h1>
-    <div class="btn-container">
-      <form action="/itens" method="GET">
-        <button type="submit">Mostrar Itens</button>
-      </form>
-      <form action="/itens/criar" method="GET">
-        <button type="submit">Criar Item</button>
-      </form>
-      <form action="/itens/editar" method="GET">
-        <button type="submit">Editar Item</button>
-      </form>
-      <form action="/itens/deletar" method="GET">
-        <button type="submit">Deletar Item</button>
-      </form>
+    <div class="container">
+      <h1>Gerenciamento de Itens</h1>
+      <div class="btn-container">
+        <form action="/itens" method="GET">
+          <button type="submit">Mostrar Itens</button>
+        </form>
+        <form action="/itens/criar" method="GET">
+          <button type="submit">Criar Item</button>
+        </form>
+        <form action="/itens/editar" method="GET">
+          <button type="submit">Editar Item</button>
+        </form>
+        <form action="/itens/deletar" method="GET">
+          <button type="submit">Deletar Item</button>
+        </form>
+      </div>
     </div>
   </body>
 </html>
