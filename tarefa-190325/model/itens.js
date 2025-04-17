@@ -8,12 +8,9 @@ const buscarItens = () => {
             if (err) {
                 return reject(err)
             }
-            if (results.length === 0) {
-                resolve(null);  
-                return;
-              }
+         
         
-              resolve(results[0]); 
+              resolve(results); 
         })
     })
 }
@@ -38,7 +35,34 @@ const criarItens = (nome, descricao, preco, estoque, categoria_id) => {
     })
 }
 
+const atualizarItem = (id, nome, descricao, preco, estoque, categoria_id) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        UPDATE itens 
+        SET nome = ?, descricao = ?, preco = ?, estoque = ?, categoria_id = ? 
+        WHERE id = ?
+      `;
+      db.query(query, [nome, descricao, preco, estoque, categoria_id, id], (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+  };
+  
+  const deletarItem = (id) => {
+    return new Promise((resolve, reject) => {
+      const query = "DELETE FROM itens WHERE id = ?";
+      db.query(query, [id], (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+  };
+
 module.exports = {
     buscarItens,
-    criarItens
+    criarItens,
+    atualizarItem,
+    deletarItem
+
 }

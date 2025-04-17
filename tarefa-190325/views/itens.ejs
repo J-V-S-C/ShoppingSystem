@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gerenciar Itens</title>
+    <title>Itens</title>
     <style>
       * {
         margin: 0;
@@ -14,84 +14,125 @@
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f4f6f9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-
-      .container {
-        background: white;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        width: 90%;
-        max-width: 500px;
-        text-align: center;
+        padding: 40px 20px;
       }
 
       h1 {
+        text-align: center;
         margin-bottom: 30px;
-        font-size: 26px;
         color: #333;
       }
 
-      .btn-container {
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        justify-content: space-between;
       }
 
-      .btn-container form {
-        width: 100%;
+      .card h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #007bff;
       }
 
-      button {
-        width: 100%;
-        padding: 15px;
-        font-size: 16px;
+      .card p {
+        margin: 5px 0;
+        color: #555;
+        font-size: 14px;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .btn-icon {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      .btn-icon.edit {
+        color: #007bff;
+      }
+
+      .btn-icon.delete {
+        color: #dc3545;
+      }
+
+      .no-items {
+        text-align: center;
+        color: red;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      .add-button {
+        display: block;
+        margin: 0 auto;
+        padding: 12px 24px;
+        background-color: #28a745;
+        color: white;
         border: none;
         border-radius: 8px;
-        background-color: #007bff;
-        color: white;
+        font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s ease;
       }
 
-      button:hover {
-        background-color: #0056b3;
-      }
-
-      @media (min-width: 600px) {
-        .btn-container {
-          flex-direction: row;
-          flex-wrap: wrap;
-          justify-content: space-between;
-        }
-
-        .btn-container form {
-          flex: 1 1 48%;
-        }
+      .add-button:hover {
+        background-color: #218838;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Gerenciamento de Itens</h1>
-      <div class="btn-container">
-        <form action="/itens" method="GET">
-          <button type="submit">Mostrar Itens</button>
-        </form>
-        <form action="/itens/criar" method="GET">
-          <button type="submit">Criar Item</button>
-        </form>
-        <form action="/itens/editar" method="GET">
-          <button type="submit">Editar Item</button>
-        </form>
-        <form action="/itens/deletar" method="GET">
-          <button type="submit">Deletar Item</button>
-        </form>
+    <h1>Itens Cadastrados</h1>
+
+    <% if (itens.length === 0) { %>
+    <div class="no-items">Não há itens cadastrados</div>
+    <% } else { %>
+    <div class="grid-container">
+      <% itens.forEach(item => { %>
+      <div class="card">
+        <h2><%= item.nome %></h2>
+        <p><strong>Descrição:</strong> <%= item.descricao %></p>
+        <p><strong>Preço:</strong> R$ <%= item.preco.toFixed(2) %></p>
+        <p><strong>Estoque:</strong> <%= item.estoque %> unidades</p>
+        <p><strong>Categoria ID:</strong> <%= item.categoria_id %></p>
+
+        <div class="actions">
+          <form action="/itens/editar/<%= item.id %>" method="GET">
+            <button class="btn-icon edit" title="Editar">&#9998;</button>
+          </form>
+          <form
+            action="/itens/deletar/<%= item.id %>"
+            method="POST"
+            onsubmit="return confirm('Tem certeza que deseja deletar este item?')"
+          >
+            <button class="btn-icon delete" title="Deletar">&#128465;</button>
+          </form>
+        </div>
       </div>
+      <% }); %>
     </div>
+    <% } %>
+
+    <form action="/itens/createItens" method="GET">
+      <button type="submit" class="add-button">Adicionar Item</button>
+    </form>
   </body>
 </html>
