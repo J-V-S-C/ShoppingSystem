@@ -16,7 +16,7 @@ router.post("/", async function(req, res, next) {
     const {email, senha, nome, sobrenome} = req.body;
     const err = await Usuario.criarUsuario(email, senha, nome, sobrenome)
     if(err) {
-        return res.redirect("/register?erro=Erro ao criar usuário");
+        return res.redirect("/register?erro=Erro ao criar usuário!");
     }
 
     return res.redirect("/login")

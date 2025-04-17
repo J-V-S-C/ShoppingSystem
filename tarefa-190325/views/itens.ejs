@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciar Itens</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        padding: 20px;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+        color: #333;
+        font-size: 28px;
+      }
+
+      .btn-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      @media (min-width: 600px) {
+        .btn-container {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        button {
+          flex: 1 1 45%;
+          margin: 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Gerenciamento de Itens</h1>
+    <div class="btn-container">
+      <form action="/itens" method="GET">
+        <button type="submit">Mostrar Itens</button>
+      </form>
+      <form action="/itens/criar" method="GET">
+        <button type="submit">Criar Item</button>
+      </form>
+      <form action="/itens/editar" method="GET">
+        <button type="submit">Editar Item</button>
+      </form>
+      <form action="/itens/deletar" method="GET">
+        <button type="submit">Deletar Item</button>
+      </form>
+    </div>
+  </body>
+</html>
