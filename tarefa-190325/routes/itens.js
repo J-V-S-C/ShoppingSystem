@@ -2,14 +2,15 @@ var express = require('express')
 var router = express.Router()
 
 var Itens = require('../model/itens')
+var Auth = require('../middleware/auth')
 
-router.get('/', async function(req, res) {
+router.get('/',  async function(req, res) {
     const response = await Itens.buscarItens();
     res.render('itens', { itens: response, erro: req.query.erro || null });
   });
   
 
-router.get('/createItens', async function(req, res){
+router.get('/createItens',Auth.verificarAutenticacao , async function(req, res){
     res.render('createItens')
 })
 router.post("/createItens", async function(req, res, next){
@@ -23,7 +24,7 @@ router.post("/createItens", async function(req, res, next){
         return res.redirect("/itens")
 })
 
-router.get('/editar/:id', async (req, res) => {
+router.get('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
     const id = req.params.id;
     try {
         const response = await Itens.buscarItensPorID(id)
@@ -33,7 +34,7 @@ router.get('/editar/:id', async (req, res) => {
     }
   });
 
-  router.post('/editar/:id', async (req, res) => {
+  router.post('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
     const id = req.params.id;
     const { nome, descricao, preco, estoque, categoria_id } = req.body;
     try {
@@ -48,7 +49,7 @@ router.get('/editar/:id', async (req, res) => {
   
   
 
-router.post('/deletar/:id', async function(req, res){
+router.post('/deletar/:id',Auth.verificarAutenticacao, async function(req, res){
     try {
         await Itens.deletarItem(req.params.id);
         res.redirect('/itens');

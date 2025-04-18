@@ -8,22 +8,6 @@
 
   <body>
     <style>
-      .main {
-        margin: 0;
-        display: flex;
-        justify-items: center;
-        align-items: center;
-        flex-direction: column;
-      }
-      .main-menu {
-        margin: 0;
-        display: flex;
-        flex-direction: row;
-        padding: 20;
-        justify-items: center;
-        align-items: center;
-      }
-
       * {
         margin: 0;
         padding: 0;
@@ -31,15 +15,15 @@
       }
 
       body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
       }
 
-      .register-container {
+      .container {
         background-color: #fff;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -54,17 +38,17 @@
         color: #333;
       }
 
-      .input-group {
+      .input {
         margin-bottom: 20px;
       }
 
-      .input-group label {
+      .input label {
         display: block;
         margin-bottom: 5px;
         color: #333;
       }
 
-      .input-group input {
+      .input input {
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
@@ -72,7 +56,7 @@
         font-size: 14px;
       }
 
-      .input-group input:focus {
+      .input input:focus {
         border-color: #0056b3;
         outline: none;
       }
@@ -114,11 +98,11 @@
       }
     </style>
 
-    <div class="register-container">
+    <div class="container">
       <form class="register-form" action="/register" method="POST">
         <h2>Criar conta</h2>
 
-        <div class="input-group">
+        <div class="input">
           <label for="email">Email</label>
           <input
             type="email"
@@ -129,7 +113,7 @@
           />
         </div>
 
-        <div class="input-group">
+        <div class="input">
           <label for="nome">Nome</label>
           <input
             type="text"
@@ -140,7 +124,7 @@
           />
         </div>
 
-        <div class="input-group">
+        <div class="input">
           <label for="sobrenome">sobrenome</label>
           <input
             type="text"
@@ -151,7 +135,7 @@
           />
         </div>
 
-        <div class="input-group">
+        <div class="input">
           <label for="senha">Senha</label>
           <input
             type="password"
@@ -164,7 +148,7 @@
 
         <button type="submit" class="btn-entrar">Entrar</button>
         <p class="p-login">Já tem uma conta?</p>
-        <a href="/login" class="btn-login">Login</a>
+        <a href="/" class="btn-login">Login</a>
         <% if (typeof erro !=='undefined' ) { %>
         <div style="color: red">
           <p><%= erro %></p>
