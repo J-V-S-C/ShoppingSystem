@@ -12,14 +12,20 @@ router.get("/", function(req, res, next) {
     res.render('register')
 })
 
-router.post("/", async function(req, res, next) {
-    const {email, senha, nome, sobrenome} = req.body;
-    const err = await Usuario.criarUsuario(email, senha, nome, sobrenome)
-    if(err) {
-        return res.redirect("/register?erro=Erro ao criar usuário!");
+router.post("/", async function(req, res) {
+    const { email, senha, nome, sobrenome } = req.body;
+    const result = await Usuario.criarUsuario(email, senha, nome, sobrenome);
+  
+    if (result?.erro) {
+      if (result.erro.code === 'ER_DUP_ENTRY') {
+        return res.redirect("/register?erro=Email já está em uso!");
+      }
+  
+      return res.redirect("/register?erro=Erro ao criar usuário!");
     }
-
-    return res.redirect("/login")
-})
+  
+    return res.redirect("/login?success=Usuário criado com sucesso! Faça login para continuar.");
+  });
+  
 
 module.exports = router

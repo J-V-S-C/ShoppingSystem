@@ -39,6 +39,10 @@
         <div class="error-message">
           <p><%= erro %></p>
         </div>
+        <% } %> <% if (typeof success !=='undefined' ) { %>
+        <div class="success-message">
+          <p><%= success %></p>
+        </div>
         <% } %>
       </form>
     </div>

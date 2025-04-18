@@ -7,8 +7,13 @@ var Auth = require("../middleware/auth")
 router.get('/', function (req, res, next) {
 
     const erro = req.query.erro || null;
+    const success = req.query.success || null;
     if (erro) {
         res.render('login', { erro });
+        return
+    }
+    if( success){
+        res.render('login', {success})
         return
     }
     res.render('login')
