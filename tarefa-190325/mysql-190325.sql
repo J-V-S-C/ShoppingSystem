@@ -28,6 +28,7 @@ create table itens (
     estoque int not null,
     categoria_id int,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
 create table pedidos_itens (

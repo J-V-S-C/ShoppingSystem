@@ -110,3 +110,25 @@ h2 {
   margin-top: 15px;
   text-align: center;
 }
+
+.checkbox-group {
+  margin-top: 15px;
+  text-align: left;
+  display: flex;
+}
+
+.checkbox-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.checkbox-group input {
+  cursor: pointer;
+}
+
+.checkbox {
+  padding-left: 8px;
+  width: fit-content;
+  align-self: center;
+}

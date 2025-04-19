@@ -3,6 +3,7 @@ var router = express.Router()
 
 var Itens = require('../model/itens')
 var Auth = require('../middleware/auth')
+var Usuarios = require('../model/usuario')
 
 router.get('/',  async function(req, res) {
     const response = await Itens.buscarItens();
@@ -15,8 +16,10 @@ router.get('/createItens',Auth.verificarAutenticacao , async function(req, res){
 })
 router.post("/createItens", async function(req, res, next){
     const { nome, descricao, preco, estoque, categoria_id } = req.body;
+    const usuario_id = Usuarios.buscarUsuarioPorEmail()
+    console.log('Usuario_id -->',usuario_id)
     
-     const err = await Itens.criarItens(nome, descricao, preco, estoque, categoria_id)
+     const err = await Itens.criarItens(nome, descricao, preco, estoque, categoria_id, usuario_id)
         if(err) {
             return res.redirect("/itens?erro=Erro ao criar Item!");
         }

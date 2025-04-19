@@ -29,10 +29,10 @@ const buscarItensPorID = (id) => {
         })
     })
 }
-const criarItens = (nome, descricao, preco, estoque, categoria_id) => {
+const criarItens = (nome, descricao, preco, estoque, categoria_id, usuario_id) => {
     return new Promise((resolve, reject)=> {
-        const query = "insert into itens (nome, descricao, preco, estoque, categoria_id) values (?, ?, ?, ?, ?)";
-        db.query(query, [nome, descricao, preco, estoque, categoria_id], (err, result) => {
+        const query = "insert into itens (nome, descricao, preco, estoque, categoria_id, usuario_id) values (?, ?, ?, ?, ?, ?)";
+        db.query(query, [nome, descricao, preco, estoque, categoria_id, usuario_id], (err, result) => {
             if(err){
                 reject(err)
                 return err

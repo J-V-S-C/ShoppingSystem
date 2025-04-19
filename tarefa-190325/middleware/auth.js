@@ -1,16 +1,29 @@
 
 var express = require('express')
 var router = express.Router()
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 class Auth {
-
     static verificarAutenticacao(req, res, next) {
-        if (!req.session.autenticado) {
-            return res.redirect('/login?erro=Você precisa estar logado');
+        const token = req.cookies.token;
+
+        if (token) {
+            try {
+                const payload = jwt.verify(token, JWT_SECRET);
+                req.usuario = payload;
+                return next();
+            } catch (err) {
+                return res.redirect('/login?erro=Token inválido ou expirado');
+            }
         }
-        next();  
+
+        if (req.session && req.session.autenticado) {
+            return next(); 
+        }
+
+        return res.redirect('/login?erro=Você precisa estar logado');
     }
 }
-
 
 module.exports = Auth
