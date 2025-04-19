@@ -23,8 +23,6 @@ const buscarItensPorID = (id) => {
             if (err) {
                 return reject(err)
             }
-         
-        
               resolve(results); 
         })
     })
@@ -38,13 +36,8 @@ const criarItens = (nome, descricao, preco, estoque, categoria_id, usuario_id) =
                 return err
             }
 
-            if(result.length === 0){
-                resolve(null)
-                return;
-
-            }
-
-            resolve(result[0])
+           
+            resolve(result.insertId); 
         })
     })
 }

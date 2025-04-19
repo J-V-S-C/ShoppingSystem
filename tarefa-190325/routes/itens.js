@@ -10,13 +10,26 @@ router.get('/', async function(req, res) {
   const error = req.query.error || null;
   const success = req.query.success || null;
 
+  const cart = req.session.cart || [];
+
+  const itemDisponivel = response.map(item => {
+    const carrinhoItem = cart.find(i => i.id === item.id);
+    const reservado = carrinhoItem ? carrinhoItem.quantidade : 0;
+    return {
+      ...item,
+      disponivel: item.estoque - reservado
+    };
+  });
+  console.log(itemDisponivel)
+
 
   res.render('itens', {
-      itens: response,
-      error: error,
-      success: success
+    itens: itemDisponivel,
+    error: error,
+    success: success
   });
 });
+
 
   
 
@@ -68,5 +81,6 @@ router.post('/deletar/:id',Auth.verificarAutenticacao, Auth.verificarOwner, asyn
       } catch (error) {
         res.status(500).send("Erro ao deletar item.");
       }})
+
 module.exports = router
 

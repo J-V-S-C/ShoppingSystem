@@ -22,17 +22,27 @@
               <th>Categoria</th>
               <th>Preço</th>
               <th>Quantidade</th>
+              <th>Total</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            <% itens.forEach(item => { %>
+            <% let total = 0; %> <% itens.forEach(item => { %> <% total +=
+            item.precoUnitario * item.quantidade; %>
             <tr>
               <td><%= item.nome %></td>
               <td><%= item.descricao %></td>
               <td><%= item.categoria_id %></td>
-              <td>R$ <%= item.preco.toFixed(2) %></td>
-              <td><%= item.quantidade %></td>
+              <td>R$ <%= item.precoUnitario.toFixed(2) %></td>
+              <td>
+                <%= item.quantidade %><br />
+                <small style="font-size: 11px; color: #888">
+                  Disponível: <%= item.estoqueRestante %>
+                </small>
+              </td>
+              <td>
+                R$ <%= (item.precoUnitario * item.quantidade).toFixed(2) %>
+              </td>
               <td>
                 <form
                   action="/cart/adicionar/<%= item.id %>"
@@ -43,7 +53,6 @@
                     +
                   </button>
                 </form>
-
                 <form
                   action="/cart/remover/<%= item.id %>"
                   method="POST"
@@ -55,13 +64,20 @@
             </tr>
             <% }); %>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" style="text-align: right; font-weight: bold">
+                Total:
+              </td>
+              <td colspan="2">R$ <%= total.toFixed(2) %></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
-
       <% } %>
 
-      <form action="/itens/comprar" method="POST" style="text-align: center">
-        <button type="submit" class="add-button">Finalizar Compra</button>
+      <form action="/posts" method="POST" style="text-align: center">
+        <button type="submit" class="add-button">Finalizar Pedido</button>
       </form>
 
       <% if (error) { %>

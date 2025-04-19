@@ -13,7 +13,8 @@
         <button class="btn-cart">🛒 Carrinho</button>
       </form>
     </div>
-    <% if (error) { %>
+
+    <% if (error && itens.length !== 0) { %>
     <div class="error-message">
       <p><%= error %></p>
     </div>
@@ -26,11 +27,15 @@
     <% } else { %>
     <div class="grid-container">
       <% itens.forEach(item => { %>
+
       <div class="card">
         <h2><%= item.nome %></h2>
         <p><strong>Descrição:</strong> <%= item.descricao %></p>
         <p><strong>Preço:</strong> R$ <%= item.preco.toFixed(2) %></p>
         <p><strong>Estoque:</strong> <%= item.estoque %> unidades</p>
+        <p>
+          <strong>Disponível para adicionar:</strong> <%= item.disponivel %>
+        </p>
         <p><strong>Categoria ID:</strong> <%= item.categoria_id %></p>
         <div class="card-actions">
           <div class="cart">
@@ -41,7 +46,7 @@
                   type="number"
                   name="quantidade"
                   min="1"
-                  max="<%= item.estoque %>"
+                  max="<%= item.disponivel %>"
                   value="1"
                 />
               </p>
