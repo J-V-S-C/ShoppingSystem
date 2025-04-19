@@ -42,11 +42,11 @@
         <button type="submit" class="btn-entrar">Entrar</button>
         <p class="p-createAccount">É novo aqui?</p>
         <a href="/register" class="btn-createAccount">Criar conta</a>
-        <% if (typeof error !=='undefined' ) { %>
+        <% if (error) { %>
         <div class="error-message">
           <p><%= error %></p>
         </div>
-        <% } %> <% if (typeof success !=='undefined' ) { %>
+        <% } %> <% if (success) { %>
         <div class="success-message">
           <p><%= success %></p>
         </div>

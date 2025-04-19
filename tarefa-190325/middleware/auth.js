@@ -1,8 +1,7 @@
 
-var express = require('express')
-var router = express.Router()
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
+const Itens = require('../model/itens')
 
 class Auth {
     static verificarAutenticacao(req, res, next) {
@@ -23,6 +22,23 @@ class Auth {
         }
 
         return res.redirect('/login?error=Você precisa estar logado');
+    }
+
+    static async verificarOwner(req, res, next)
+    {
+        const itemId = req.params.id;
+        const [item] = await Itens.buscarItensPorID(itemId);
+
+        if(!item){
+            return res.redirect('/itens?error=Item não encontrado');
+        }
+
+        const userId = req.usuario?.id || req.session?.usuarioId;
+
+        if( item.usuario_id !== userId){
+            return res.redirect('/itens?error=Você não tem permissão para alterar itens de outras pessoas');
+        }
+        next()
     }
 }
 

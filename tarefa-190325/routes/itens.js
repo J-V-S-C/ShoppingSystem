@@ -36,7 +36,7 @@ router.post("/createItens", async function(req, res, next){
         return res.redirect("/itens?success=Item criado com sucesso!")
 })
 
-router.get('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
+router.get('/editar/:id',Auth.verificarAutenticacao, Auth.verificarOwner, async (req, res) => {
     const id = req.params.id;
     try {
         const response = await Itens.buscarItensPorID(id)
@@ -46,7 +46,7 @@ router.get('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
     }
   });
 
-  router.post('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
+  router.post('/editar/:id',Auth.verificarAutenticacao, Auth.verificarOwner, async (req, res) => {
     const id = req.params.id;
     const { nome, descricao, preco, estoque, categoria_id } = req.body;
     try {
@@ -61,7 +61,7 @@ router.get('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
   
   
 
-router.post('/deletar/:id',Auth.verificarAutenticacao, async function(req, res){
+router.post('/deletar/:id',Auth.verificarAutenticacao, Auth.verificarOwner, async function(req, res){
     try {
         await Itens.deletarItem(req.params.id);
         res.redirect('/itens');
