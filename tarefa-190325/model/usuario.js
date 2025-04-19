@@ -28,7 +28,7 @@ const criarUsuario = (email, senha, nome, sobrenome) => {
 
     db.query(query, [nome, sobrenome, email, senha], (err, result) => {
       if(err) {
-        resolve({erro: err});
+        resolve({error: err});
         return 
       }
   

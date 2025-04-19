@@ -7,9 +7,21 @@
     <title>Itens</title>
   </head>
   <body>
-    <h1>Itens Cadastrados</h1>
-
-    <% if (itens.length === 0) { %>
+    <div class="header">
+      <h1>Itens Cadastrados</h1>
+      <form action="/cart" method="GET">
+        <button class="btn-cart">🛒 Carrinho</button>
+      </form>
+    </div>
+    <% if (error) { %>
+    <div class="error-message">
+      <p><%= error %></p>
+    </div>
+    <% } %> <% if (success) { %>
+    <div class="success-message">
+      <p><%= success %></p>
+    </div>
+    <% } %> <% if (itens.length === 0) { %>
     <div class="no-items">Não há itens cadastrados</div>
     <% } else { %>
     <div class="grid-container">
@@ -20,18 +32,37 @@
         <p><strong>Preço:</strong> R$ <%= item.preco.toFixed(2) %></p>
         <p><strong>Estoque:</strong> <%= item.estoque %> unidades</p>
         <p><strong>Categoria ID:</strong> <%= item.categoria_id %></p>
+        <div class="card-actions">
+          <div class="cart">
+            <form action="/cart/<%= item.id %>" method="POST">
+              <p>
+                <strong>Quantidade:</strong>
+                <input
+                  type="number"
+                  name="quantidade"
+                  min="1"
+                  max="<%= item.estoque %>"
+                  value="1"
+                />
+              </p>
 
-        <div class="actions">
-          <form action="/itens/editar/<%= item.id %>" method="GET">
-            <button class="btn-icon edit" title="Editar">&#9998;</button>
-          </form>
-          <form
-            action="/itens/deletar/<%= item.id %>"
-            method="POST"
-            onsubmit="return confirm('Tem certeza que deseja deletar este item?')"
-          >
-            <button class="btn-icon delete" title="Deletar">&#128465;</button>
-          </form>
+              <button type="submit" class="btn-add">
+                Adicionar ao carrinho
+              </button>
+            </form>
+          </div>
+          <div class="actions">
+            <form action="/itens/editar/<%= item.id %>" method="GET">
+              <button class="btn-icon edit" title="Editar">&#9998;</button>
+            </form>
+            <form
+              action="/itens/deletar/<%= item.id %>"
+              method="POST"
+              onsubmit="return confirm('Tem certeza que deseja deletar este item?')"
+            >
+              <button class="btn-icon delete" title="Deletar">&#128465;</button>
+            </form>
+          </div>
         </div>
       </div>
       <% }); %>
@@ -39,12 +70,7 @@
     <% } %>
 
     <form action="/itens/createItens" method="GET">
-      <button type="submit" class="add-button">Adicionar Item</button>
+      <button type="submit" class="add-button">Criar Item</button>
     </form>
-    <% if (erro) { %>
-    <div style="color: red">
-      <p><%= erro %></p>
-    </div>
-    <% } %>
   </body>
 </html>

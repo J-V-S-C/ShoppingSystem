@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/cart.style.css" />
+    <title>Carrinho de Compras</title>
+  </head>
+  <body>
+    <div class="cart-container">
+      <h1 class="cart-title">🛒 Carrinho de Compras</h1>
+
+      <% if (itens.length === 0) { %>
+      <div class="cart-empty">Não há itens no carrinho.</div>
+      <% } else { %>
+      <div class="table-wrapper">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Preço</th>
+              <th>Quantidade</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% itens.forEach(item => { %>
+            <tr>
+              <td><%= item.nome %></td>
+              <td><%= item.descricao %></td>
+              <td><%= item.categoria_id %></td>
+              <td>R$ <%= item.preco.toFixed(2) %></td>
+              <td><%= item.quantidade %></td>
+              <td>
+                <form
+                  action="/cart/adicionar/<%= item.id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button class="btn-icon edit" title="Adicionar mais">
+                    +
+                  </button>
+                </form>
+
+                <form
+                  action="/cart/remover/<%= item.id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button class="btn-icon delete" title="Remover">−</button>
+                </form>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+      <% } %>
+
+      <form action="/itens/comprar" method="POST" style="text-align: center">
+        <button type="submit" class="add-button">Finalizar Compra</button>
+      </form>
+
+      <% if (error) { %>
+      <div class="error-message">
+        <p><%= error %></p>
+      </div>
+      <% } %>
+    </div>
+  </body>
+</html>

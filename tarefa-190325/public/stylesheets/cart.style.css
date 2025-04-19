@@ -1,0 +1,155 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+.cart-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.cart-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.cart-empty {
+  text-align: center;
+  color: #dc3545;
+  font-weight: 600;
+  font-size: 18px;
+  margin: 40px 0;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 14px 18px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  text-align: left;
+}
+
+.cart-table th {
+  background-color: #f1f3f7;
+  color: #555;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.cart-table tbody tr:first-child td:first-child {
+  border-top-left-radius: 8px;
+}
+
+.cart-table tbody tr:first-child td:last-child {
+  border-top-right-radius: 8px;
+}
+
+.cart-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.cart-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.btn-icon {
+  border: none;
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 6px 11px;
+  border-radius: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-icon.edit {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-icon.edit:hover {
+  background-color: #218838;
+}
+
+.btn-icon.delete {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-icon.delete:hover {
+  background-color: #c82333;
+}
+
+.add-button {
+  background-color: #007bff;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #0069d9;
+}
+
+.error-message {
+  color: #e53e3e;
+  background: #fddede;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .cart-container {
+    padding: 20px;
+  }
+
+  .cart-title {
+    font-size: 22px;
+  }
+
+  .cart-table th,
+  .cart-table td {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .btn-icon {
+    padding: 5px 9px;
+    font-size: 14px;
+  }
+
+  .add-button {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px;
+  }
+}

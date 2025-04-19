@@ -14,7 +14,7 @@ class Auth {
                 req.usuario = payload;
                 return next();
             } catch (err) {
-                return res.redirect('/login?erro=Token inválido ou expirado');
+                return res.redirect('/login?error=Token inválido ou expirado');
             }
         }
 
@@ -22,7 +22,7 @@ class Auth {
             return next(); 
         }
 
-        return res.redirect('/login?erro=Você precisa estar logado');
+        return res.redirect('/login?error=Você precisa estar logado');
     }
 }
 

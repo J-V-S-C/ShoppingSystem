@@ -7,10 +7,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 router.get('/', function (req, res, next) {
 
-    const erro = req.query.erro || null;
+    const error = req.query.error || null;
     const success = req.query.success || null;
-    if (erro) {
-        res.render('login', { erro });
+    if (error) {
+        res.render('login', { error });
         return
     }
     if( success){
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
     const usuario = await Usuario.buscarUsuarioPorEmail(email);
 
     if (!usuario) {
-        return res.redirect('/login?erro=Usuário não encontrado');
+        return res.redirect('/login?error=Usuário não encontrado');
     }
 
     if (usuario.senha === senha) {
@@ -51,15 +51,22 @@ router.post('/', async (req, res) => {
     
             res.cookie('token', token, {
                 httpOnly: true,
-                secure: false, 
+                secure: false,
                 maxAge: 1000 * 60 * 60 * 24
-            });
+              });
+              
+              res.cookie('email', email, {
+                httpOnly: true,
+                secure: false,
+                maxAge: 1000 * 60 * 60 * 24
+              });
+              
         }
         req.session.usuarioId = usuario.id;
         req.session.autenticado = true;
         return res.redirect('/itens');
     } else {
-        return res.redirect('/login?erro=Senha incorreta');
+        return res.redirect('/login?error=Senha incorreta');
     }
 });
 

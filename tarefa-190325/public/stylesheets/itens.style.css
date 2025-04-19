@@ -11,9 +11,29 @@ body {
 }
 
 h1 {
-  text-align: center;
-  margin-bottom: 30px;
   color: #333;
+}
+
+.header {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.btn-cart {
+  background-color: #ca7717;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-cart:hover {
+  background-color: #b6680e;
 }
 
 .grid-container {
@@ -89,4 +109,45 @@ h1 {
 
 .add-button:hover {
   background-color: #218838;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-add {
+  background-color: #28a745;
+  display: block;
+  margin: 0 auto;
+  padding: 8px 16px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-add:hover {
+  background-color: #218838;
+}
+
+.error-message {
+  color: #e53e3e;
+  background: #f8d1d1;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.success-message {
+  color: #3be02c;
+  background: #dafad7;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  text-align: center;
 }

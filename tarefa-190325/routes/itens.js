@@ -5,10 +5,19 @@ var Itens = require('../model/itens')
 var Auth = require('../middleware/auth')
 var Usuarios = require('../model/usuario')
 
-router.get('/',  async function(req, res) {
-    const response = await Itens.buscarItens();
-    res.render('itens', { itens: response, erro: req.query.erro || null });
+router.get('/', async function(req, res) {
+  const response = await Itens.buscarItens();
+  const error = req.query.error || null;
+  const success = req.query.success || null;
+
+
+  res.render('itens', {
+      itens: response,
+      error: error,
+      success: success
   });
+});
+
   
 
 router.get('/createItens',Auth.verificarAutenticacao , async function(req, res){
@@ -16,15 +25,15 @@ router.get('/createItens',Auth.verificarAutenticacao , async function(req, res){
 })
 router.post("/createItens", async function(req, res, next){
     const { nome, descricao, preco, estoque, categoria_id } = req.body;
-    const usuario_id = Usuarios.buscarUsuarioPorEmail()
-    console.log('Usuario_id -->',usuario_id)
-    
-     const err = await Itens.criarItens(nome, descricao, preco, estoque, categoria_id, usuario_id)
+    const email = req.cookies.email
+    const usuario = await Usuarios.buscarUsuarioPorEmail(email)
+    const id = usuario.id
+    const err = await Itens.criarItens(nome, descricao, preco, estoque, categoria_id, id)
         if(err) {
-            return res.redirect("/itens?erro=Erro ao criar Item!");
+            return res.redirect("/itens?error=Erro ao criar Item!");
         }
     
-        return res.redirect("/itens")
+        return res.redirect("/itens?success=Item criado com sucesso!")
 })
 
 router.get('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
@@ -33,7 +42,7 @@ router.get('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
         const response = await Itens.buscarItensPorID(id)
         res.render('updateItem', { item: response[0] });
     } catch (err) {
-      res.redirect('/itens?erro=Erro ao buscar item para edição!');
+      res.redirect('/itens?error=Erro ao buscar item para edição!');
     }
   });
 
@@ -45,7 +54,7 @@ router.get('/editar/:id',Auth.verificarAutenticacao, async (req, res) => {
         return res.redirect("/itens");
       } catch (error) {
         console.error("Erro ao editar item:", error);
-        return res.redirect("/itens?erro=Erro ao editar item!");
+        return res.redirect("/itens?error=Erro ao editar item!");
       }
       
   });
@@ -60,3 +69,4 @@ router.post('/deletar/:id',Auth.verificarAutenticacao, async function(req, res){
         res.status(500).send("Erro ao deletar item.");
       }})
 module.exports = router
+
