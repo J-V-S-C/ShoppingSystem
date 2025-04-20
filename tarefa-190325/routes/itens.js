@@ -20,7 +20,6 @@ router.get('/', async function(req, res) {
       disponivel: item.estoque - reservado
     };
   });
-  console.log(itemDisponivel)
 
 
   res.render('itens', {

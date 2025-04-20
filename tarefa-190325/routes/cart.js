@@ -54,11 +54,8 @@ router.post('/:id', Auth.verificarAutenticacao, async function (req, res) {
       item.quantidade = quantidade;
       item.precoUnitario = item.preco;
       Cart.push(item);
-    }
-
-   
-
-    res.redirect('/itens?success=Item adicionado ao carrinho com sucesso!?novoEstoque=novoEstoque');
+    }   
+    res.redirect('/itens?success=Item adicionado ao carrinho com sucesso!');
   } catch (error) {
     console.error('Erro ao adicionar item ao carrinho:', error);
     res.redirect('/itens?error=Erro ao adicionar item ao carrinho.');
