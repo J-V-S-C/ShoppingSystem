@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Itens</title>
 
-    <!-- Estilos -->
     <link rel="stylesheet" href="/stylesheets/itens.style.css" />
     <link rel="stylesheet" href="/stylesheets/header.style.css" />
     <link
@@ -41,7 +40,7 @@
           <p><strong>Preço:</strong> R$ <%= item.preco.toFixed(2) %></p>
           <p><strong>Estoque:</strong> <%= item.estoque %> unidades</p>
           <p><strong>Disponível:</strong> <%= item.disponivel %></p>
-          <p><strong>Categoria ID:</strong> <%= item.categoria_id %></p>
+          <p><strong>Categoria:</strong> <%= item.categoria_nome %></p>
 
           <div class="card-actions">
             <div class="cart">

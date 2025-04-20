@@ -63,13 +63,14 @@
           </div>
 
           <div class="form-group">
-            <label for="categoria_id">Categoria (ID)</label>
-            <input
-              type="number"
-              id="categoria_id"
-              name="categoria_id"
-              placeholder="Digite o ID da categoria"
-            />
+            <label for="categoria_id">Categoria</label>
+            <select id="categoria_id" name="categoria_id" required>
+              <option value="" hidden>Selecione uma categoria</option>
+
+              <% categorias.forEach(cat => { %>
+              <option value="<%= cat.id %>"><%= cat.nome %></option>
+              <% }) %>
+            </select>
           </div>
 
           <button type="submit">Salvar Item</button>

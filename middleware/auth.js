@@ -18,8 +18,13 @@ class Auth {
         }
 
         if (req.session && req.session.autenticado) {
+            req.usuario = {
+                id: req.session.usuarioId,
+                tipo: req.session.tipo
+            };
             return next(); 
         }
+        
 
         return res.redirect('/login?error=Você precisa estar logado');
     }
@@ -28,6 +33,7 @@ class Auth {
     {
         const itemId = req.params.id;
         const [item] = await Itens.buscarItensPorID(itemId);
+        const tipo = req.usuario?.tipo || req.session?.tipo;
 
         if(!item){
             return res.redirect('/itens?error=Item não encontrado');
@@ -35,8 +41,9 @@ class Auth {
 
         const userId = req.usuario?.id || req.session?.usuarioId;
 
-        if( item.usuario_id !== userId){
-            return res.redirect('/itens?error=Você não tem permissão para alterar itens de outras pessoas');
+        if( item.usuario_id !== userId && tipo !== 'admin'){
+                return res.redirect('/itens?error=Você não tem permissão para alterar itens de outras pessoas');
+            
         }
         next()
     }

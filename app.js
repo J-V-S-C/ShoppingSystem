@@ -13,6 +13,7 @@ var postsRouter = require('./routes/post');
 var registerRouter = require("./routes/register");
 var itensRouter = require("./routes/itens")
 var cartRouter = require('./routes/cart')
+var categoriasRouter = require('./routes/categorias');
 
 var app = express();
 
@@ -45,6 +46,7 @@ app.use('/posts', postsRouter);
 app.use('/register', registerRouter)
 app.use('/itens', itensRouter)
 app.use('/cart', cartRouter)
+app.use('/categorias', categoriasRouter)
 
 app.use(function (req, res, next) {
   next(createError(404));
