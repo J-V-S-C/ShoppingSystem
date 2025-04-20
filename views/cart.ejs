@@ -4,11 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/cart.style.css" />
+    <link rel="stylesheet" href="/stylesheets/header.style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <title>Carrinho de Compras</title>
   </head>
   <body>
+    <%- include('partials/header') %>
+
     <div class="cart-container">
-      <h1 class="cart-title">🛒 Carrinho de Compras</h1>
+      <h1 class="cart-title">
+        <i class="fas fa-shopping-cart"></i> Carrinho de Compras
+      </h1>
 
       <% if (itens.length === 0) { %>
       <div class="cart-empty">Não há itens no carrinho.</div>
@@ -75,6 +84,31 @@
         </table>
       </div>
       <% } %>
+      <div class="cart-cards">
+        <% itens.forEach(item => { %>
+        <div class="cart-card">
+          <h3><%= item.nome %></h3>
+          <p><strong>Descrição:</strong> <%= item.descricao %></p>
+          <p><strong>Categoria:</strong> <%= item.categoria_id %></p>
+          <p><strong>Preço:</strong> R$ <%= item.precoUnitario.toFixed(2) %></p>
+          <p><strong>Quantidade:</strong> <%= item.quantidade %></p>
+          <p><small>Disponível: <%= item.estoqueRestante %></small></p>
+          <p>
+            <strong>Total:</strong> R$ <%= (item.precoUnitario *
+            item.quantidade).toFixed(2) %>
+          </p>
+
+          <div class="actions">
+            <form action="/cart/adicionar/<%= item.id %>" method="POST">
+              <button class="btn-icon edit" title="Adicionar mais">+</button>
+            </form>
+            <form action="/cart/remover/<%= item.id %>" method="POST">
+              <button class="btn-icon delete" title="Remover">−</button>
+            </form>
+          </div>
+        </div>
+        <% }) %>
+      </div>
 
       <form action="/posts" method="POST" style="text-align: center">
         <button type="submit" class="add-button">Finalizar Pedido</button>

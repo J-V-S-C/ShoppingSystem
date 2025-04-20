@@ -40,6 +40,17 @@ class Auth {
         }
         next()
     }
+
+    static verificarAdmin(req, res, next) {
+        const tipo = req.usuario?.tipo || req.session?.tipo;
+    
+        if (tipo !== 'admin') {
+            return res.redirect('/itens?error=Você não tem permissão para acessar esta área');
+        }
+    
+        next();
+    }
+    
 }
 
 module.exports = Auth

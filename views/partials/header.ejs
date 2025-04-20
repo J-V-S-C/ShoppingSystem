@@ -1,0 +1,28 @@
+<header class="main-header">
+  <nav class="nav-container">
+    <a href="/" class="logo">
+      <i class="fas fa-store"></i>
+      <span>ShopSystem</span>
+    </a>
+    <ul class="nav-list">
+      <li>
+        <a href="/"><i class="fas fa-home"></i> Início</a>
+      </li>
+      <% if (usuario?.tipo === 'admin' || session?.tipo === 'admin') { %>
+      <li>
+        <a href="/posts"><i class="fas fa-clipboard-list"></i> Pedidos</a>
+      </li>
+      <% } %>
+
+      <li>
+        <a href="/itens"><i class="fas fa-box"></i> Itens</a>
+      </li>
+      <li>
+        <a href="/cart"><i class="fas fa-shopping-cart"></i> Carrinho</a>
+      </li>
+      <li>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+      </li>
+    </ul>
+  </nav>
+</header>

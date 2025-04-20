@@ -3,79 +3,92 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/stylesheets/itens.style.css" />
     <title>Itens</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/stylesheets/itens.style.css" />
+    <link rel="stylesheet" href="/stylesheets/header.style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
+
   <body>
-    <div class="header">
-      <h1>Itens Cadastrados</h1>
-      <form action="/cart" method="GET">
-        <button class="btn-cart">🛒 Carrinho</button>
-      </form>
-    </div>
+    <%- include('partials/header') %>
 
-    <% if (error && itens.length !== 0) { %>
-    <div class="error-message">
-      <p><%= error %></p>
-    </div>
-    <% } %> <% if (success) { %>
-    <div class="success-message">
-      <p><%= success %></p>
-    </div>
-    <% } %> <% if (itens.length === 0) { %>
-    <div class="no-items">Não há itens cadastrados</div>
-    <% } else { %>
-    <div class="grid-container">
-      <% itens.forEach(item => { %>
+    <div class="content">
+      <div class="header">
+        <h1>Itens Cadastrados</h1>
+      </div>
 
-      <div class="card">
-        <h2><%= item.nome %></h2>
-        <p><strong>Descrição:</strong> <%= item.descricao %></p>
-        <p><strong>Preço:</strong> R$ <%= item.preco.toFixed(2) %></p>
-        <p><strong>Estoque:</strong> <%= item.estoque %> unidades</p>
-        <p>
-          <strong>Disponível para adicionar:</strong> <%= item.disponivel %>
-        </p>
-        <p><strong>Categoria ID:</strong> <%= item.categoria_id %></p>
-        <div class="card-actions">
-          <div class="cart">
-            <form action="/cart/<%= item.id %>" method="POST">
-              <p>
-                <strong>Quantidade:</strong>
-                <input
-                  type="number"
-                  name="quantidade"
-                  min="1"
-                  max="<%= item.disponivel %>"
-                  value="1"
-                />
-              </p>
+      <% if (error && itens.length !== 0) { %>
+      <div class="error-message">
+        <p><%= error %></p>
+      </div>
+      <% } %> <% if (success) { %>
+      <div class="success-message">
+        <p><%= success %></p>
+      </div>
+      <% } %> <% if (itens.length === 0) { %>
+      <div class="no-items">Não há itens cadastrados</div>
+      <% } else { %>
+      <div class="grid-container">
+        <% itens.forEach(item => { %>
+        <div class="card">
+          <h2><%= item.nome %></h2>
+          <p><strong>Descrição:</strong> <%= item.descricao %></p>
+          <p><strong>Preço:</strong> R$ <%= item.preco.toFixed(2) %></p>
+          <p><strong>Estoque:</strong> <%= item.estoque %> unidades</p>
+          <p><strong>Disponível:</strong> <%= item.disponivel %></p>
+          <p><strong>Categoria ID:</strong> <%= item.categoria_id %></p>
 
-              <button type="submit" class="btn-add">
-                Adicionar ao carrinho
-              </button>
-            </form>
-          </div>
-          <div class="actions">
-            <form action="/itens/editar/<%= item.id %>" method="GET">
-              <button class="btn-icon edit" title="Editar">&#9998;</button>
-            </form>
-            <form
-              action="/itens/deletar/<%= item.id %>"
-              method="POST"
-              onsubmit="return confirm('Tem certeza que deseja deletar este item?')"
-            >
-              <button class="btn-icon delete" title="Deletar">&#128465;</button>
-            </form>
+          <div class="card-actions">
+            <div class="cart">
+              <form action="/cart/<%= item.id %>" method="POST">
+                <p>
+                  <strong>Qtd:</strong>
+                  <input
+                    type="number"
+                    name="quantidade"
+                    min="1"
+                    max="<%= item.disponivel %>"
+                    value="1"
+                  />
+                </p>
+                <button type="submit" class="btn-add">
+                  <i class="fas fa-cart-plus"></i> Adicionar
+                </button>
+              </form>
+            </div>
+
+            <div class="actions">
+              <form action="/itens/editar/<%= item.id %>" method="GET">
+                <button class="btn-icon edit" title="Editar">
+                  <i class="fas fa-pen"></i>
+                </button>
+              </form>
+              <form
+                action="/itens/deletar/<%= item.id %>"
+                method="POST"
+                onsubmit="return confirm('Deseja excluir este item?')"
+              >
+                <button class="btn-icon delete" title="Deletar">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
+        <% }); %>
       </div>
-      <% }); %>
-    </div>
-    <% } %>
+      <% } %>
 
-    <form action="/itens/createItens" method="GET">
-      <button type="submit" class="add-button">Criar Item</button>
-    </form>
+      <form action="/itens/createItens" method="GET">
+        <button type="submit" class="add-button">
+          <i class="fas fa-plus"></i> Criar Item
+        </button>
+      </form>
+    </div>
   </body>
 </html>

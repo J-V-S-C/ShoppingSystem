@@ -1,0 +1,231 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f6fa;
+  color: #2f3640;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+}
+
+h1,
+h2 {
+  text-align: center;
+  color: #273c75;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin: 40px 0 20px;
+  color: #353b48;
+  border-bottom: 1px solid #dcdde1;
+  padding-bottom: 5px;
+}
+
+.main-menu {
+  width: 90%;
+  max-width: 800px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.main-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.main-menu li {
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: #fdfdfd;
+  transition: 0.2s transform ease-in-out;
+}
+
+.main-menu li:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.pedido.pendente {
+  border-left: 6px solid #f6b93b;
+  background: #fffbea;
+}
+
+.pedido.aprovado {
+  border-left: 6px solid #2ecc71;
+  background: #e9f7ef;
+}
+
+.pedido.rejeitado {
+  border-left: 6px solid #e74c3c;
+  background: #fceaea;
+}
+
+button,
+.status-actions button {
+  background-color: #44bd32;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px 5px 0 0;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #4cd137;
+}
+
+.status-actions button {
+  background-color: #40739e;
+  margin-top: 5px;
+}
+
+.status-actions button:hover {
+  background-color: #3498db;
+}
+
+.status-actions button i,
+button i {
+  margin-right: 5px;
+}
+
+form {
+  display: inline;
+}
+
+a {
+  text-decoration: none;
+  color: #0097e6;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.sem-pedidos-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  margin: 20px 0;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 500;
+  text-align: center;
+  background: #f0f0f0;
+  color: #888;
+  border: 1px solid #ccc;
+}
+
+.sem-pedidos-card i {
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: #c0c0c0;
+}
+
+.sem-pedidos-card.pendente {
+  background: #fff8e6;
+  border-color: #f6b93b;
+}
+
+.sem-pedidos-card.aprovado {
+  background: #e7fdf5;
+  border-color: #2ecc71;
+}
+
+.sem-pedidos-card.rejeitado {
+  background: #ffe5e5;
+  border-color: #e74c3c;
+}
+
+.status-actions {
+  display: none;
+  margin-top: 10px;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.status-actions.ativo {
+  display: flex;
+}
+
+.pedido-acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.pedido-acoes a {
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 600px) {
+  .main-menu {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .main-menu li {
+    padding: 12px;
+  }
+
+  h1,
+  h2 {
+    font-size: 1.4em;
+  }
+
+  button,
+  .status-actions button {
+    padding: 6px 12px;
+    font-size: 0.9em;
+  }
+
+  .sem-pedidos-card {
+    font-size: 1em;
+    padding: 20px 10px;
+  }
+}
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.error-message {
+  background-color: #ffcccc;
+  color: #c0392b;
+  border: 1px solid #e74c3c;
+}
+
+.success-message {
+  background-color: #dff9fb;
+  color: #27ae60;
+  border: 1px solid #2ecc71;
+}
+
+.alert i {
+  font-size: 1.2em;
+}

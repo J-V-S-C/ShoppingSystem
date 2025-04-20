@@ -1,71 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/posts.style.css" />
+    <link rel="stylesheet" href="/stylesheets/header.style.css" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posts</title>
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <title>Pedidos</title>
+  </head>
 
-<body>
-
-    <style>
-        .main{
-
-            margin: 0;
-            display: flex;
-            justify-items: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .main-menu{
-
-            margin: 0;
-            display: flex;
-            flex-direction: row;
-            padding: 20;
-            justify-items: center;
-            align-items: center;
-        }
-    </style>
-    
+  <body>
+    <%- include('partials/header') %>
     <div class="main">
+      <div class="main-menu">
+        <h1>Pedidos</h1>
 
-        <div class="main-menu">
-            <h1>Pedidos</h1>
-
-            <form action="login/logout" method="get">
-                <button type="submit">Sair</button>
-            </form>
-
-            <form action="login/logout" method="get">
-                <button type="submit">Criar</button>
-            </form>
-
-
-
-            <% if (pedidos && pedidos.length > 0) { %>
-                <ul>
-                    <% pedidos.forEach(function(pedido) { %>
-                        <li>
-                            <strong>Pedido ID:</strong> <%= pedido.id %> <br>
-                            <strong>Data:</strong> <%= pedido.data_compra %> <br>
-                            <strong>Valor Total:</strong> <%= pedido.valor_total %> <br>
-                            <a href="posts/edit?id=<%= pedido.id %>">Edit</a>
-                            <a href="posts/delete?id=<%= pedido.id %>">Excluir</a>
-
-                        </li>
-                    <% }); %>
-                </ul>
-            <% } else { %>
-                <p>Não há pedidos.</p>
-            <% } %>
+        <% if (error) { %>
+        <div class="alert error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <p><%= error %></p>
         </div>
-        <div>
-
+        <% } %> <% if (success) { %>
+        <div class="alert success-message">
+          <i class="fas fa-check-circle"></i>
+          <p><%= success %></p>
         </div>
+        <% } %> <% if (pedidos && pedidos.length > 0) { const categorias = [ {
+        titulo: 'Pendentes', status: 'pendente', icone: 'inbox' }, { titulo:
+        'Aprovados', status: 'aprovado', icone: 'clipboard-check' }, { titulo:
+        'Rejeitados', status: 'rejeitado', icone: 'ban' } ];
+        categorias.forEach(cat => { const lista = pedidos.filter(p => p.status
+        === cat.status); %>
+
+        <h2>Pedidos <%= cat.titulo %></h2>
+        <% if (lista.length > 0) { %>
+        <ul>
+          <% lista.forEach(pedido => { %>
+          <li class="pedido <%= cat.status %>">
+            <strong>Pedido ID:</strong> <%= pedido.id %> <br />
+            <strong>Data:</strong> <%= pedido.data_compra %> <br />
+            <strong>Valor Total:</strong> R$ <%= pedido.valor_total %> <br />
+            <strong>Status:</strong> <%= pedido.status %> <br />
+            <div class="pedido-acoes">
+              <button type="button" onclick="ativarEdicao(<%= pedido.id %>)">
+                <i class="fas fa-edit"></i> Editar
+              </button>
+
+              <a href="posts/deletar?id=<%= pedido.id %>">
+                <i class="fas fa-trash"></i> Excluir
+              </a>
+            </div>
+
+            <div class="status-actions" id="status-actions-<%= pedido.id %>">
+              <% if (pedido.status !== 'aprovado') { %>
+              <form action="posts/aprovar" method="post">
+                <input type="hidden" name="pedidoId" value="<%= pedido.id %>" />
+                <button type="submit">
+                  <i class="fas fa-check"></i> Aprovar
+                </button>
+              </form>
+              <% } %> <% if (pedido.status !== 'rejeitado') { %>
+              <form action="posts/rejeitar" method="post">
+                <input type="hidden" name="pedidoId" value="<%= pedido.id %>" />
+                <button type="submit">
+                  <i class="fas fa-times"></i> Rejeitar
+                </button>
+              </form>
+              <% } %> <% if (pedido.status !== 'pendente') { %>
+              <form action="posts/pendente" method="post">
+                <input type="hidden" name="pedidoId" value="<%= pedido.id %>" />
+                <button type="submit">
+                  <i class="fas fa-undo"></i> Marcar como Pendente
+                </button>
+              </form>
+              <% } %>
+            </div>
+          </li>
+          <% }); %>
+        </ul>
+        <% } else { %>
+        <div class="sem-pedidos-card <%= cat.status %>">
+          <i class="fas fa-<%= cat.icone %>"></i>
+          <p>Não há pedidos <%= cat.titulo.toLowerCase() %> ainda.</p>
+        </div>
+        <% } %> <% }); %> <% } else { %>
+        <div class="sem-pedidos-card">
+          <i class="fas fa-box-open"></i>
+          <p>Nenhum pedido encontrado no sistema.</p>
+        </div>
+        <% } %>
+      </div>
     </div>
 
-</body>
-
+    <script>
+      function ativarEdicao(pedidoId) {
+        const el = document.getElementById(`status-actions-${pedidoId}`);
+        if (el) {
+          el.classList.toggle('ativo');
+        }
+      }
+    </script>
+  </body>
 </html>

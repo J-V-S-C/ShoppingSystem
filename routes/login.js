@@ -44,7 +44,8 @@ router.post('/', async (req, res) => {
         {
           id: usuario.id,
           nome: usuario.nome,
-          email: usuario.email
+          email: usuario.email,
+          tipo: usuario.tipo 
         },
         JWT_SECRET,
         { expiresIn: '1d' }
@@ -65,6 +66,7 @@ router.post('/', async (req, res) => {
   
     req.session.usuarioId = usuario.id;
     req.session.autenticado = true;
+    req.session.tipo = usuario.tipo; 
     return res.redirect('/itens');
   });
 
