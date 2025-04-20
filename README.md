@@ -14,11 +14,11 @@ npm install
 
 5- Crie um banco de dados no MySql, adicione as credenciais no arquivo .env e copie e cole o conteúdo do arquivo mysql.sql no mysql workbanch ou no CLI do mysql
 exemplo de credenciais:
-HOST: "meu host",
-USER: 'meu user',
-PORT: 1111,
-PASSWORD: 'minha senha',
-DATABASE: 'meu nome do database'
+HOST = meu host
+USER = meu user
+PORT = 1111
+PASSWORD = minha senha
+DATABASE = meu nome do database
 
 6- Inicie o servidor:
 npm run start

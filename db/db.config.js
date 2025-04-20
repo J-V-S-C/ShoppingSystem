@@ -1,12 +1,12 @@
 const mySql = require('mysql2')
 
 const connection = mySql.createConnection({
-    host: process.env.HOST,
+    host: process.env.DB_HOST,
     //usar sudo docker inspect moodle-atv ip-address
-    user: process.env.ROOT,
-    port: process.env.PORT,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
+    user: process.env.DB_USER,
+    port: process.env.DB_PORT,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
 })
 
 connection.connect((err)=> {
