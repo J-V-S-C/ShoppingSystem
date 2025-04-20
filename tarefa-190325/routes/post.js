@@ -11,22 +11,27 @@ router.get('/', Auth.verificarAutenticacao, async function(req, res, next) {
 
 router.post('/', Auth.verificarAutenticacao, async function(req, res){
     const usuarioId = req.session.usuarioId || req.usuario.id
-    const cart = req.session.cart || []
+    const cart = await require('../model/cart').buscarPorUsuario(usuarioId);
 
-    if(cart.length === 0){
-        return res.redirect('/cart?error=Seu carrinho está vazio!')
-    }
+if (!cart || cart.length === 0) {
+  return res.redirect('/cart?error=Seu carrinho está vazio!');
+}
 
     try{
         const valor_total = cart.reduce((total, item)=> {
-            return total + item.precoUnitario * item.quantidade;
+            return total + item.valor_venda * item.quantidade;
           }, 0);
-        const pedidoId = await Pedidos.criarPedido(Date.now(),usuarioId, valor_total)
+          const dataAtual = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+          const pedidoId = await Pedidos.criarPedido(dataAtual, valor_total, usuarioId);
+
         await Pedidos.inserirItensNoPedido(pedidoId, cart)
 
-        req.session.cart = []
-        return res.redirect('/cart?success=Pedido criado com sucesso!')
+        
+        await require('../model/cart').limparCarrinho(usuarioId);
+        return res.redirect('/itens?success=Pedido criado com sucesso!')
     }catch(err){
+        console.error('Erro ao criar pedido:', err)
         return res.redirect('/cart?error=Erro ao criar pedido!')
     }
 })
