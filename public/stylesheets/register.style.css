@@ -95,3 +95,30 @@ h2 {
   margin-top: 15px;
   text-align: center;
 }
+
+.checkbox-admin {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.checkbox-admin input[type='checkbox'] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.checkbox-admin label {
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.admin-secret {
+  margin-top: -10px;
+}
+
+.admin-secret input {
+  border: 1px solid #e0e0e0;
+  background-color: #fafafa;
+}

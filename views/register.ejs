@@ -55,6 +55,42 @@
             placeholder="Digite sua senha"
           />
         </div>
+        <div class="input">
+          <label for="senha">Confirmar Senha</label>
+          <input
+            type="password"
+            id="confirmarSenha"
+            name="confirmarSenha"
+            required
+            placeholder="Confirme sua senha"
+          />
+        </div>
+        <div class="checkbox-admin">
+          <label for="isAdmin">Admin?</label>
+          <input type="checkbox" id="isAdmin" name="isAdmin" onchange="toggleAdminSenha()" />
+
+        </div>
+        
+        
+        <div class="input admin-secret" id="adminSecretInput" style="display: none;">
+          <label for="adminSecret">Senha de autorização (admin)</label>
+          <input
+            type="password"
+            id="adminSecret"
+            name="adminSecret"
+            placeholder="Digite a senha secreta de administrador"
+          />
+        </div>
+        
+        <script>
+          function toggleAdminSenha() {
+            const check = document.getElementById('isAdmin');
+            const input = document.getElementById('adminSecretInput');
+            input.style.display = check.checked ? 'block' : 'none';
+          }
+        </script>
+        
+        
 
         <button type="submit" class="btn-entrar">Criar</button>
         <p class="p-login">Já tem uma conta?</p>

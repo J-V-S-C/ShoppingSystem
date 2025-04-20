@@ -34,7 +34,6 @@ router.post('/', async (req, res) => {
     }
   
     const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
-  
     if (!senhaCorreta) {
       return res.redirect('/login?error=Senha incorreta');
     }

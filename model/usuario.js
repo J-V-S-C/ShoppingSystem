@@ -20,20 +20,21 @@ const buscarUsuarioPorEmail = (email) => {
   });
 };
 
-const criarUsuario = (email, senha, nome, sobrenome) => {
+const criarUsuario = (email, senha, nome, sobrenome, tipo = 'comum') => {
   return new Promise((resolve, reject) => {
     bcrypt.hash(senha, saltRounds, (err, hash) => {
       if (err) return reject(err);
 
-      const query = 'INSERT INTO usuarios (nome, sobrenome, email, senha) VALUES (?, ?, ?, ?)';
-      db.query(query, [nome, sobrenome, email, hash], (err, result) => {
-        if (err) return reject(err);
+      const query = 'INSERT INTO usuarios (nome, sobrenome, email, senha, tipo) VALUES (?, ?, ?, ?, ?)';
+      db.query(query, [nome, sobrenome, email, hash, tipo], (err, result) => {
+        if (err) return reject({ error: err });
 
         resolve(result.insertId); 
       });
     });
   });
 };
+
 
 module.exports = {
   buscarUsuarioPorEmail,
