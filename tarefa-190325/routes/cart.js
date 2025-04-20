@@ -3,37 +3,37 @@ const router = express.Router();
 
 const Itens = require('../model/itens');
 const Auth = require('../middleware/auth');
+const Cart = require('../model/cart'); 
 
-router.get('/', async function (req, res) {
-  const Cart = req.session.cart || [];
+router.get('/', Auth.verificarAutenticacao, async function (req, res) {
+  try {
+    const usuario_id = req.usuario.id;
+    const itens = await Cart.buscarPorUsuario(usuario_id);
 
-  const itensAtualizados = await Promise.all(
-    Cart.map(async (carrinhoItem) => {
-      const [itemAtualizado] = await Itens.buscarItensPorID(carrinhoItem.id);
-      return {
-        ...carrinhoItem,
-        estoque: itemAtualizado.estoque,
-        estoqueRestante: itemAtualizado.estoque - carrinhoItem.quantidade
-      };
-    })
-  );
+    const itensAtualizados = itens.map(item => ({
+      ...item,
+      precoUnitario: item.valor_venda,
+      estoqueRestante: item.estoque - item.quantidade
+    }));
+    
 
-  res.render('cart', {
-    itens: itensAtualizados,
-    error: req.query.error || null,
-    success: req.query.success || null
-  });
+    res.render('cart', {
+      itens: itensAtualizados,
+      error: req.query.error || null,
+      success: req.query.success || null
+    });
+  } catch (error) {
+    console.error('Erro ao listar carrinho:', error);
+    res.redirect('/itens?error=Erro ao carregar carrinho.');
+  }
 });
+
 
 
 
 router.post('/:id', Auth.verificarAutenticacao, async function (req, res) {
   try {
-    if (!req.session.cart) {
-      req.session.cart = [];
-    }
-    const Cart = req.session.cart;
-    
+    const usuario_id = req.usuario.id;
     const quantidade = parseInt(req.body.quantidade);
     const item_id = parseInt(req.params.id);
     const [item] = await Itens.buscarItensPorID(item_id);
@@ -42,19 +42,29 @@ router.post('/:id', Auth.verificarAutenticacao, async function (req, res) {
       return res.redirect('/itens?error=Item não encontrado.');
     }
 
-    const cartItem = Cart.find(i => i.id === item_id);
-    if (cartItem && cartItem.quantidade >= item.estoque) {
-      return res.redirect('/cart?error=Estoque insuficiente para adicionar mais.');
-    }
-    
-    
-    if (cartItem) {
-      cartItem.quantidade += quantidade;
+    const carrinhoExistente = await Cart.buscarPorUsuarioEItem(usuario_id, item_id);
+
+    if (carrinhoExistente) {
+      const novaQuantidade = carrinhoExistente.quantidade + quantidade;
+
+      if (novaQuantidade > item.estoque) {
+        return res.redirect('/itens?error=Estoque insuficiente.');
+      }
+
+      await Cart.atualizarQuantidade(usuario_id, item_id, novaQuantidade);
     } else {
-      item.quantidade = quantidade;
-      item.precoUnitario = item.preco;
-      Cart.push(item);
-    }   
+      if (quantidade > item.estoque) {
+        return res.redirect('/itens?error=Estoque insuficiente.');
+      }
+
+      await Cart.inserir({
+        usuario_id,
+        item_id,
+        quantidade,
+        valor_venda: item.preco
+      });
+    }
+
     res.redirect('/itens?success=Item adicionado ao carrinho com sucesso!');
   } catch (error) {
     console.error('Erro ao adicionar item ao carrinho:', error);
@@ -64,15 +74,16 @@ router.post('/:id', Auth.verificarAutenticacao, async function (req, res) {
 
 router.post('/adicionar/:id', Auth.verificarAutenticacao, async function (req, res) {
   try {
-    if (!req.session.cart) {
-      req.session.cart = [];
-    }
-    const Cart = req.session.cart;
-    
-    const id = parseInt(req.params.id);
-    const [item] = await Itens.buscarItensPorID(id);
+    const usuario_id = req.usuario.id;
+    const item_id = parseInt(req.params.id);
+    const [item] = await Itens.buscarItensPorID(item_id);
 
-    const carrinhoItem = Cart.find(i => i.id === id);
+    if (!item) {
+      return res.redirect('/cart?error=Item não encontrado.');
+    }
+
+    const carrinhoItem = await Cart.buscarPorUsuarioEItem(usuario_id, item_id);
+
     if (!carrinhoItem) {
       return res.redirect('/cart?error=Item não está no carrinho.');
     }
@@ -81,8 +92,7 @@ router.post('/adicionar/:id', Auth.verificarAutenticacao, async function (req, r
       return res.redirect('/cart?error=Estoque insuficiente.');
     }
 
-    carrinhoItem.quantidade += 1;
- 
+    await Cart.atualizarQuantidade(usuario_id, item_id, carrinhoItem.quantidade + 1);
 
     res.redirect('/cart?success=Item adicionado ao carrinho!');
   } catch (error) {
@@ -93,22 +103,19 @@ router.post('/adicionar/:id', Auth.verificarAutenticacao, async function (req, r
 
 router.post('/remover/:id', Auth.verificarAutenticacao, async function (req, res) {
   try {
-    if (!req.session.cart) {
-      req.session.cart = [];
-    }
-    const Cart = req.session.cart;
-    
-    const id = parseInt(req.params.id);
+    const usuario_id = req.usuario.id;
+    const item_id = parseInt(req.params.id);
 
-    const carrinhoItem = Cart.find(i => i.id === id);
+    const carrinhoItem = await Cart.buscarPorUsuarioEItem(usuario_id, item_id);
+
     if (!carrinhoItem || carrinhoItem.quantidade <= 0) {
       return res.redirect('/cart?error=Item não está no carrinho.');
     }
 
-    carrinhoItem.quantidade -= 1;
-
-    if (carrinhoItem.quantidade === 0) {
-      req.session.cart = Cart.filter(i => i.id !== id);
+    if (carrinhoItem.quantidade === 1) {
+      await Cart.removerItem(usuario_id, item_id);
+    } else {
+      await Cart.atualizarQuantidade(usuario_id, item_id, carrinhoItem.quantidade - 1);
     }
 
     res.redirect('/cart?success=Item removido do carrinho!');
@@ -117,6 +124,7 @@ router.post('/remover/:id', Auth.verificarAutenticacao, async function (req, res
     res.redirect('/cart?error=Erro ao remover item do carrinho.');
   }
 });
+
 
 
 

@@ -5,28 +5,33 @@ var Itens = require('../model/itens')
 var Auth = require('../middleware/auth')
 var Usuarios = require('../model/usuario')
 
-router.get('/', async function(req, res) {
-  const response = await Itens.buscarItens();
-  const error = req.query.error || null;
-  const success = req.query.success || null;
+const Cart = require('../model/cart');
 
-  const cart = req.session.cart || [];
+router.get('/', Auth.verificarAutenticacao, async function(req, res) {
+  try {
+    const usuario_id = req.usuario.id;
 
-  const itemDisponivel = response.map(item => {
-    const carrinhoItem = cart.find(i => i.id === item.id);
-    const reservado = carrinhoItem ? carrinhoItem.quantidade : 0;
-    return {
-      ...item,
-      disponivel: item.estoque - reservado
-    };
-  });
+    const response = await Itens.buscarItens();            
+    const carrinho = await Cart.buscarPorUsuario(usuario_id);
 
+    const itensComDisponivel = response.map(item => {
+      const carrinhoItem = carrinho.find(c => c.id === item.id);
+      const reservado = carrinhoItem ? carrinhoItem.quantidade : 0;
+      return {
+        ...item,
+        disponivel: item.estoque - reservado
+      };
+    });
 
-  res.render('itens', {
-    itens: itemDisponivel,
-    error: error,
-    success: success
-  });
+    res.render('itens', {
+      itens: itensComDisponivel,
+      error: req.query.error || null,
+      success: req.query.success || null
+    });
+  } catch (error) {
+    console.error('Erro ao carregar itens:', error);
+    res.redirect('/itens?error=Erro ao carregar itens.');
+  }
 });
 
 

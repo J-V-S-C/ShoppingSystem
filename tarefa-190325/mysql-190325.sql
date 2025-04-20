@@ -40,3 +40,13 @@ create table pedidos_itens (
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
     FOREIGN KEY (item_id) REFERENCES itens(id)
 );
+
+create table carrinho (
+    id int not null AUTO_INCREMENT PRIMARY KEY,
+    usuario_id int not null,
+    item_id int not null,
+    quantidade int not null,
+    valor_venda float not null,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (item_id) REFERENCES itens(id)
+);
