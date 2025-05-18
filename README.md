@@ -1,27 +1,29 @@
-# trabalhoBrasil
+# ShoppingSystem
 
-Para instalar o projeto, siga os passos abaixo:
-1- Clone o repositório:
+To install the project follow the steps bellow:
+
+1- Clone the repository:
 GIT CLONE https://github.com/J-V-S-C/trabalhoBrasil.git
 
-2- Acesse o diretório do projeto
+2- Navigate into project's repository:
 cd trabalhoBrasil
 
-3- Instale as dependências:
+3- Install dependencies:
 npm install
 
-4- Crie um arquivo .env na raiz do projeto, e adicione as variáveis de ambiente necessárias.
+4-Create a .env file at the root of the project and add the required environment variables.
 
-5- Crie um banco de dados no MySql, adicione as credenciais no arquivo .env e copie e cole o conteúdo do arquivo mysql.sql no mysql workbanch ou no CLI do mysql
-exemplo de credenciais:
-HOST = meu host
-USER = meu user
+5-Create a MySQL database, add the credentials to the .env file, and copy the content of the mysql.sql file into MySQL Workbench or the MySQL CLI.
+
+Example credentials for .env:
+HOST = my host
+USER = my user
 PORT = 1111
-PASSWORD = minha senha
-DATABASE = meu nome do database
+PASSWORD = my password
+DATABASE = my database name
 
-6- Inicie o servidor:
+6- Start the server:
 npm run start
 
-7- Acesse o projeto no navegador:
+7- Access the project in your browser:
 http://localhost:3000
