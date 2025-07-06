@@ -11,19 +11,19 @@ cd ShoppingSystem
 
 # Install dependencies:
 npm install
-```
-Then create a .env file at the root of the project and add the required environment variables.
 
-Create a MySQL database, add the credentials to the .env file, and copy the content of the mysql.sql file into MySQL Workbench or the MySQL CLI.
+# Create a .env file at the root of the project
+touch .env
 
-Example credentials for .env:
+# Create a MySQL database, add the credentials to the .env file, and copy the content of the mysql.sql file into MySQL Workbench or the MySQL CLI.
+
+# Example credentials for .env:
 HOST = my host
 USER = my user
 PORT = 1111
 PASSWORD = my password
 DATABASE = my database name
 
-```bash
 # Start the server:
 npm run start
 ```
