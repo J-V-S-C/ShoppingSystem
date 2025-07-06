@@ -4,10 +4,10 @@ To install the project follow the steps bellow:
 
 ```bash
 # Clone the repository:
-git clone https://github.com/J-V-S-C/shoppyingSystem.git
+git clone https://github.com/J-V-S-C/ShoppingSystem.git
 
 # Access the directory
-cd shoppingSystem
+cd ShoppingSystem
 
 # Install dependencies:
 npm install
