@@ -4,10 +4,10 @@ To install the project follow the steps bellow:
 
 ```bash
 # Clone the repository:
-git clone https://github.com/J-V-S-C/trabalhoBrasil.git
+git clone https://github.com/J-V-S-C/shoppyingSystem.git
 
 # Access the directory
-cd trabalhoBrasil
+cd shoppingSystem
 
 # Install dependencies:
 npm install
